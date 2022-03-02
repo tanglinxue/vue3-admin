@@ -1,18 +1,46 @@
-<script>
-export default{
-  name:'Home'
-}
-
-
-</script>
 
 <template>
   <div class="basic-layout">
-    <div class="nav-side"></div>
-    <div class="content-right">
+    <div :class="['nav-side',isCollapse?'fold':'unfold']">
+      <!-- 系统LOGO -->
+      <div class="logo">
+        <img src="./../assets/logo.png" />
+        <span>Manager</span>
+      </div>
+
+      <el-menu
+        default-active="2"
+        background-color="#001529"
+        text-color="#fff"
+        router
+        :collapse="false"
+        class="nav-menu"
+      >
+        <el-submenu index="1">
+          <i class="el-icon-setting"></i>
+          <template slot="title">系统管理</template>
+          <el-menu-item index="12"> 用户管理 </el-menu-item>
+          <template slot="title">菜单管理</template>
+        </el-submenu>
+        <el-menu-item index="2">
+          <i class="el-icon-menu"></i>
+        </el-menu-item>
+      </el-menu>
+    </div>
+    <div :class="['content-right',isCollapse?'fold':'unfold']">
       <div class="nav-top">
-        <div class="bread">面包屑</div>
-        <div class="">用户</div>
+        <div class="nav-left">
+          <div class="menu-fold" @click="toggle">
+            <i class="el-icon-s-fold"></i>
+          </div>
+          <div class="bread">面包屑</div>
+        </div>
+
+        <div class="user-info">
+          <el-badge :is-dot="true" class="notice">
+            <i class="el-icon-bell"></i
+          ></el-badge>
+        </div>
       </div>
       <div class="wrapper">
         <div class="main-page">
@@ -22,7 +50,34 @@ export default{
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  name: 'Home',
+  data() {
+    return {
+      isCollapse: false,
+      userInfo: this.$store.state.userInfo,
+      noticeCount:0
+    };
+  },
+  mounted(){
+    this.getNoticeCount()
+  },
+  methods: {
+    toggle() {
+      this.isCollapse = !this.isCollapse;
+    },
+    async getNoticeCount() {
+      try {
+        const count = await this.$api.noticeCount();
+        this.noticeCount = count;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+</script>
 <style lang="scss">
 .basic-layout {
   position: relative;

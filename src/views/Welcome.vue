@@ -1,18 +1,21 @@
-<script>
-export default{
-  name:'Welcome',
-  props:['msg']
-}
-
-
-</script>
-
 <template>
   <div class="welcome">
-    <h1>欢迎来到登录界面-{{msg}}</h1>
-    <router-link to="/login">去登录</router-link>
+    <div class="content">
+      <div class="sub-title">欢迎体验</div>
+      <div class="title">慕课通用后台管理系统</div>
+      <div class="desc">
+        - Vue3.0+ElementPlus+Node+Mongo打造通用后台管理系统
+      </div>
+    </div>
+    <div class="img"></div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "welcome",
+};
+</script>
 
 <style lang="scss">
 .welcome {
